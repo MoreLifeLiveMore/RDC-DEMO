@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>Real Dream Chasers</title>
+    <link href="/styles.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="game-container">
+      <canvas class="game-canvas" width="352" height="198"></canvas>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Overworld.js"></script>
+    <script src="/GameObject.js"></script>
+    <script src="/Sprite.js"></script>
+    <!--If you put the source-loading code at the end of your <body> tag, 
+        the rendering won't be blocked, even though the new script tags 
+        are appended to the head. That's because most of the rendering 
+        is already done when you get to that part.-->
+    <script src="/init.js"></script>
+  </body>
+</html>
