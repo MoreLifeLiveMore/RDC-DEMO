@@ -4,31 +4,40 @@ class Overworld {
     this.element = config.element; // assigns element(game containter), assings to config parameter
     this.canvas = this.element.querySelector(".game-canvas"); // finds game canvas from game container, used to draw images to
     this.ctx = this.canvas.getContext("2d"); //reference to canvas, access to drawing methods(2d)
+    this.map = null;
   }
 
-  init() {
-    // Init methods initializes action
-    const image = new Image(); // creates new image
-    image.onload = () => {
-      // loads image data(pixels) to browser so it can be used
-      this.ctx.drawImage(image, 0, 0); // loads data to canvas thru its context, context allows us to draw to canvas
+  startGameLoop() {
+    // runs every framen(example 60fps)
+    // step() calling step() when a new frame starts during requestAnimationFrame()
+    const step = () => {
+      //clear screen
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      //Draw lower level
+      this.map.DrawLowerImage(this.ctx);
+
+      //Draw gameObjects
+      Object.values(this.map.gameObjects).forEach((object) => {
+        object.update({
+          arrow: this.directionInput.direction
+        });
+        object.sprite.draw(this.ctx);
+      });
+
+      //Draw upper level
+      this.map.DrawUpperImage(this.ctx);
+
+      requestAnimationFrame(() => {
+        step();
+      });
     };
-    image.src = "/images/maps/DemoLower.png"; // assigns image source
-
-    // Place Game Objects!
-    const hero = new GameObject({
-      x: 7,
-      y: 5,
-    });
-    const npc1 = new GameObject({
-      x: 3,
-      y: 4,
-      src: "/images/characters/people/npc1.png",
-    });
-
-    setTimeout(() => {
-      hero.sprite.draw(this.ctx);
-      npc1.sprite.draw(this.ctx);
-    }, 200);
+    step();
+  }
+  init() {
+    // init method initializes action
+    this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
+    this.directionInput = new DirectionInput();
+    this.directionInput.init();
+    this.startGameLoop();
   }
 }

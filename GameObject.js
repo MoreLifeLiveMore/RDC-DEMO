@@ -4,10 +4,15 @@ class GameObject {
     // config is like an object, so we can pass different values to it (kinda like props react?)
     this.x = config.x || 0;
     this.y = config.y || 0;
+    this.direction = config.direction || "down";
     this.sprite = new Sprite({
          gameObject: this,    // gives gameObject key access to properties
          src: config.src || "/images/characters/people/hero.png"
     });
   }
+
+  update() {
+
+  };
 }
  

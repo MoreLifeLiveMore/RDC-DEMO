@@ -31,8 +31,8 @@ class Sprite {
 
   draw(ctx) {
     // method that draws to context(canvas)
-    const x = this.gameObject.x * 16 - 8; // position to draw to x-axis
-    const y = this.gameObject.y * 16 - 18; // position to draw to y-axis
+    const x = this.gameObject.x - 8; // position to draw to x-axis
+    const y = this.gameObject.y - 18; // position to draw to y-axis
 
     this.isShadowLoaded && ctx.drawImage(this.shadow, x, y);
 
