@@ -1,6 +1,7 @@
+// class that takes in input from key codes
 class DirectionInput {
   constructor() {
-    this.heldDirections = [];
+    this.heldDirections = []; 
     this.map = {
       ArrowUp: "up",
       KeyW: "up",
@@ -13,14 +14,16 @@ class DirectionInput {
     };
   }
 
-  get direction() {
+  get direction() { // methd that returns current direction and shows in array
     return this.heldDirections[0];
   }
 
-  init() {
+  init() { // runs init to add events to "gameScreen/container" document/webpage 
+    //listens for an event (a key being pressed down(keydown)) with an option for
+    // the event to have a variable that holds the key codes held in the map property.
     document.addEventListener("keydown", (e) => {
       const dir = this.map[e.code];
-      if (dir && this.heldDirections.indexOf(dir) === -1) {
+      if (dir && this.heldDirections.indexOf(dir) === -1) { 
         this.heldDirections.unshift(dir);
         console.log(this.heldDirections);
       }
