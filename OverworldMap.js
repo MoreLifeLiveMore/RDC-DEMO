@@ -32,7 +32,7 @@ window.OverworldMaps = {
         x: utils.withGrid(3), 
         y: utils.withGrid(4),
         src: "/images/characters/people/npc1.png" 
-      })
+      }) 
     },
   },
 };
