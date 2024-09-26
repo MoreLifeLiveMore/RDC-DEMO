@@ -17,7 +17,6 @@ class GameObject {
   }
 
   mount(map) {
-    console.log("mounting!!!");
     this.isMounted = true;
     map.addWall(this.x, this.y);
 
@@ -29,9 +28,9 @@ class GameObject {
 
   update() {}
 
-  async doBehaviourEvent() {
+  async doBehaviourEvent(map) {
     // Don't do anything while cutscene is playing and ai is taking brief pause to reset(not doing anything momentarily)
-    if (map.cutsceneIsPlaying || this.behaviourloopIndex.length === 0) {
+    if (map.isCutscenePlaying || this.behaviourloop.length === 0) {
       return;
     }
     //setting up relevant information for the event
@@ -40,7 +39,7 @@ class GameObject {
 
     //create event instance out of next event config
     const eventHandler = new OverworldEvent({ map, event: eventConfig });
-    await eventHandler.init();
+    await eventHandler.Init();
 
     /// do this next event
     //

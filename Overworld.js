@@ -29,9 +29,13 @@ class Overworld {
       this.map.DrawLowerImage(this.ctx, cameraPerson);
 
       //Draw gameObjects
-      Object.values(this.map.gameObjects).forEach((object) => {
-        object.sprite.draw(this.ctx, cameraPerson);
-      });
+      Object.values(this.map.gameObjects)
+        .sort((a, b) => {
+          return a.y - b.y;
+        })
+        .forEach((object) => {
+          object.sprite.draw(this.ctx, cameraPerson);
+        });
 
       //Draw upper level
       this.map.DrawUpperImage(this.ctx, cameraPerson);
@@ -49,5 +53,22 @@ class Overworld {
     this.directionInput = new DirectionInput();
     this.directionInput.init();
     this.startGameLoop();
+    //crete custome cutscenes!!
+    this.map.startCutscene([
+      { who: "hero", type: "walk", direction: "down" },
+      { who: "hero", type: "walk", direction: "left" },
+      { who: "hero", type: "walk", direction: "left" },
+      { who: "hero", type: "walk", direction: "down" },
+      { who: "hero", type: "walk", direction: "down" },
+      { who: "hero", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "down" },
+      { who: "npc1", type: "walk", direction: "right" },
+      { who: "npc1", type: "walk", direction: "right" },
+      { who: "npc1", type: "stand", direction: "up" },
+    ]);
   }
 }

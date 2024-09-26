@@ -9,7 +9,7 @@ class OverworldMap {
     this.upperImage = new Image(); // upperImage is like roofs and treetops that hover above player, covering them?
     this.upperImage.src = config.upperSrc;
 
-    this.isCutScenePlaying = false;
+    this.isCutscenePlaying = false ;
   }
 
   DrawLowerImage(ctx, cameraPerson) {
@@ -43,6 +43,20 @@ class OverworldMap {
     });
   }
 
+  async startCutscene(events) {
+    this.isCutscenePlaying = true;
+
+    for (let i=0; i<events.length; i++) {
+      const eventHandler = new OverworldEvent({
+        event: events[i],
+        map: this,
+      })
+      await eventHandler.Init();
+    }
+
+    this.isCutscenePlaying = false;
+  }
+
   addWall(x, y) {
     this.walls[`${x},${y}`] = true;
   }
@@ -65,8 +79,8 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(8),
-        y: utils.withGrid(5),
+        x: utils.withGrid(7),
+        y: utils.withGrid(4),
       }),
       npc1: new Person({
         x: utils.withGrid(3),
@@ -74,22 +88,28 @@ window.OverworldMaps = {
         src: "/images/characters/people/npc1.png",
         behaviourloop: [
           {type:"walk", direction:"down",},
-          {type:"walk", direction:"left",},
+          {type:"walk", direction:"down",},
           {type:"walk", direction:"right",},
+          {type:"walk", direction:"right",},
+          {type:"walk", direction:"right",},
+          {type:"walk", direction:"left",},
+          {type:"walk", direction:"left",},
+          {type:"walk", direction:"left",},
           {type:"walk", direction:"up",},
-          {type:"stand", direction:"up", time: 2000},
+          {type:"walk", direction:"up",},
+          {type:"stand", direction:"up", time: 8000},
         ]
       }),
       npc2: new Person({
-        x: utils.withGrid(4),
-        y: utils.withGrid(4),
+        x: utils.withGrid(9),
+        y: utils.withGrid(8),
         src: "/images/characters/people/npc2.png",
         behaviourloop: [
-          {type:"walk", direction:"right",},
-          {type:"stand", direction:"right", time:1200},
-          {type:"stand", direction:"up",time:1200},
-          {type:"stand", direction:"down",time:1200},
-          {type:"walk", direction:"left",}
+         // {type:"walk", direction:"right",},
+          {type:"stand", direction:"right", time:12000},
+          {type:"stand", direction:"up",time:8000},
+          {type:"stand", direction:"down",time:7000},
+        //  {type:"walk", direction:"left",}
         ]
       }),
     },
