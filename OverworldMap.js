@@ -8,6 +8,8 @@ class OverworldMap {
 
     this.upperImage = new Image(); // upperImage is like roofs and treetops that hover above player, covering them?
     this.upperImage.src = config.upperSrc;
+
+    this.isCutScenePlaying = false;
   }
 
   DrawLowerImage(ctx, cameraPerson) {
@@ -31,8 +33,14 @@ class OverworldMap {
     return this.walls[`${x},${y}`] || false;
   }
 
-  mountObjects(){
-    
+  mountObjects() {
+    Object.keys(this.gameObjects).forEach((key) => {
+
+      let object = this.gameObjects[key];
+      object.id = key;
+      //TODO: determine if this object should actually mount
+      object.mount(this);
+    });
   }
 
   addWall(x, y) {
@@ -64,6 +72,25 @@ window.OverworldMaps = {
         x: utils.withGrid(3),
         y: utils.withGrid(4),
         src: "/images/characters/people/npc1.png",
+        behaviourloop: [
+          {type:"walk", direction:"down",},
+          {type:"walk", direction:"left",},
+          {type:"walk", direction:"right",},
+          {type:"walk", direction:"up",},
+          {type:"stand", direction:"up", time: 2000},
+        ]
+      }),
+      npc2: new Person({
+        x: utils.withGrid(4),
+        y: utils.withGrid(4),
+        src: "/images/characters/people/npc2.png",
+        behaviourloop: [
+          {type:"walk", direction:"right",},
+          {type:"stand", direction:"right", time:1200},
+          {type:"stand", direction:"up",time:1200},
+          {type:"stand", direction:"down",time:1200},
+          {type:"walk", direction:"left",}
+        ]
       }),
     },
     walls: {

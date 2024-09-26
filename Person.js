@@ -42,6 +42,7 @@ class Person extends GameObject {
         return;
       }
       //Ready walk
+      state.map.moveWall(this.x,this.y,this.direction);
       this.movingProgressRemaining = 16;
     }
   }
@@ -51,6 +52,7 @@ class Person extends GameObject {
     this[property] += change;
     this.movingProgressRemaining -= 1;
   }
+  
 
   updateSprite() {
     if (this.movingProgressRemaining > 0) {

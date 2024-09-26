@@ -2,6 +2,7 @@
 class GameObject {
   constructor(config) {
     // config is like an object, so we can pass different values to it (kinda like props react?)
+    this.id = null;
     this.x = config.x || 0;
     this.isMounted = false;
     this.y = config.y || 0;
@@ -10,12 +11,46 @@ class GameObject {
       gameObject: this, // gives gameObject key access to properties
       src: config.src || "/images/characters/people/hero.png",
     });
+
+    this.behaviourloop = config.behaviourloop || [];
+    this.behaviourloopIndex = 0;
   }
 
   mount(map) {
+    console.log("mounting!!!");
     this.isMounted = true;
-    map.addMap(this.x, this.y);
+    map.addWall(this.x, this.y);
+
+    //if we have ai behaviour, start after short delay
+    setTimeout(() => {
+      this.doBehaviourEvent(map);
+    }, 10);
   }
 
   update() {}
+
+  async doBehaviourEvent() {
+    // Don't do anything while cutscene is playing and ai is taking brief pause to reset(not doing anything momentarily)
+    if (map.cutsceneIsPlaying || this.behaviourloopIndex.length === 0) {
+      return;
+    }
+    //setting up relevant information for the event
+    let eventConfig = this.behaviourloop[this.behaviourloopIndex];
+    eventConfig.who = this.id;
+
+    //create event instance out of next event config
+    const eventHandler = new OverworldEvent({ map, event: eventConfig });
+    await eventHandler.init();
+
+    /// do this next event
+    //
+    //
+    this.behaviourloopIndex += 1;
+    if (this.behaviourloopIndex === this.behaviourloop.length) {
+      this.behaviourloopIndex = 0;
+    }
+
+    // Do it again
+    this.doBehaviourEvent(map);
+  }
 }
