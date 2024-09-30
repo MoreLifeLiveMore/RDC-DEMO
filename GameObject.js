@@ -30,7 +30,7 @@ class GameObject {
 
   async doBehaviourEvent(map) {
     // Don't do anything while cutscene is playing and ai is taking brief pause to reset(not doing anything momentarily)
-    if (map.isCutscenePlaying || this.behaviourloop.length === 0) {
+    if (map.isCutscenePlaying || this.behaviourloop.length === 0 || this.isStanding) {
       return;
     }
     //setting up relevant information for the event

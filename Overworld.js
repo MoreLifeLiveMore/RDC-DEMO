@@ -55,12 +55,14 @@ class Overworld {
     this.startGameLoop();
     //crete custome cutscenes!!
     this.map.startCutscene([
+      // Hero is about to walk out
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "left" },
       { who: "hero", type: "walk", direction: "left" },
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "down" },
+      // npc1 sees and comes to stop me
       { who: "npc1", type: "walk", direction: "down" },
       { who: "npc1", type: "walk", direction: "down" },
       { who: "npc1", type: "walk", direction: "down" },
@@ -68,7 +70,16 @@ class Overworld {
       { who: "npc1", type: "walk", direction: "down" },
       { who: "npc1", type: "walk", direction: "right" },
       { who: "npc1", type: "walk", direction: "right" },
-      { who: "npc1", type: "stand", direction: "up" },
+      { who: "npc1", type: "stand", direction: "up", time: 1000 },
+      //npc1 then returns to normal ai route
+      { who: "npc1", type: "walk", direction: "left" },
+      { who: "npc1", type: "walk", direction: "left" },
+      { who: "npc1", type: "walk", direction: "up" },
+      { who: "npc1", type: "walk", direction: "up" },
+      { who: "npc1", type: "walk", direction: "up" },
+      { who: "npc1", type: "stand", direction: "down", time: 1000 },
+      { who: "npc1", type: "walk", direction: "up" },
+      { who: "npc1", type: "walk", direction: "up" },
     ]);
   }
 }
