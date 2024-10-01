@@ -55,7 +55,7 @@ class Overworld {
     this.startGameLoop();
     //crete custome cutscenes!!
     this.map.startCutscene([
-      // Hero is about to walk out
+      // Hero is about to walk out 
       { who: "hero", type: "walk", direction: "down" },
       { who: "hero", type: "walk", direction: "left" },
       { who: "hero", type: "walk", direction: "left" },

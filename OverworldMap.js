@@ -104,7 +104,7 @@ window.OverworldMaps = {
           { type: "walk", direction: "up" },
           { type: "walk", direction: "up" },
           { type: "walk", direction: "up" },
-          { type: "stand", direction: "up", time: 10000, },
+          { type: "stand", direction: "up", time: 100000, },
         ],
       }),
       npc2: new Person({
