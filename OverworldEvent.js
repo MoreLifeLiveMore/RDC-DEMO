@@ -13,7 +13,7 @@ class OverworldEvent {
       {
         type: "stand",
         direction: this.event.direction,
-        time: this.event.time
+        time: this.event.time,
       }
     );
     //set up handler complete when correct person is done ai instructions, then resolve event
@@ -48,13 +48,13 @@ class OverworldEvent {
     };
     document.addEventListener("PersonWalkingComplete", completeHandler);
   }
-
-  TextMessage(resolve){
-const message = new TextMessage({
-  text: this.event.text,
-  onComplete: () => resolve()
-})
-message.init(document.querySelector(".game-container"))
+  //⬇️ when this message runs, creates a new TextMessage, init() it and passes in where it should inject the text, then init() in TextMessage class creates Dom element, then shows on screen
+  textMessage(resolve) {
+    const message = new TextMessage({
+      text: this.event.text, //this is the text that we want to show
+      onComplete: () => resolve(), // this is what needs to be called when messages are done being acknowleged by player, once player clicks to proceed, the onComplete method needs to be called
+    });
+    message.init(document.querySelector(".game-container")); // passes init() a DOM container to inject our messages to
   }
 
   Init() {
