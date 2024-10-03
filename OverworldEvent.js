@@ -50,11 +50,23 @@ class OverworldEvent {
   }
   //⬇️ when this message runs, creates a new TextMessage, init() it and passes in where it should inject the text, then init() in TextMessage class creates Dom element, then shows on screen
   textMessage(resolve) {
+    if (this.event.faceHero) {
+      const obj = this.map.gameObjects[this.event.faceHero];
+      obj.direction = utils.oppositeDirection(
+        this.map.gameObjects["hero"].direction
+      );
+    }
+
     const message = new TextMessage({
       text: this.event.text, //this is the text that we want to show
       onComplete: () => resolve(), // this is what needs to be called when messages are done being acknowleged by player, once player clicks to proceed, the onComplete method needs to be called
     });
     message.init(document.querySelector(".game-container")); // passes init() a DOM container to inject our messages to
+  }
+
+  changeMap(resolve) {
+    this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
+    resolve();
   }
 
   Init() {

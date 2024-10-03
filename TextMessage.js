@@ -22,6 +22,10 @@ class TextMessage {
           //closes text messages
           this.done();
         })
+        this.actionListener = new KeyPressListener("Enter", () => {
+          this.actionListener.unbind();
+          this.done(); 
+        })
   } 
 // resolves event by removing on screen text message and calling onComplete, moving action forward?
   done(){

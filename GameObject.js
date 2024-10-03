@@ -14,6 +14,8 @@ class GameObject {
 
     this.behaviourloop = config.behaviourloop || [];
     this.behaviourloopIndex = 0;
+
+    this.talking = config.talking || [];
   }
 
   mount(map) {
@@ -53,3 +55,4 @@ class GameObject {
     this.doBehaviourEvent(map);
   }
 }
+ 
