@@ -1,116 +1,93 @@
-// top level, parent component that keeps track of state and sends to sub-components... draws images to canvas
 class Overworld {
-  constructor(config) {
-    this.element = config.element; // assigns element(game containter), assings to config parameter
-    this.canvas = this.element.querySelector(".game-canvas"); // finds game canvas from game container, used to draw images to
-    this.ctx = this.canvas.getContext("2d"); //reference to canvas, access to drawing methods(2d)
-    this.map = null;
-  }
+ constructor(config) {
+   this.element = config.element;
+   this.canvas = this.element.querySelector(".game-canvas");
+   this.ctx = this.canvas.getContext("2d");
+   this.map = null;
+ }
 
   startGameLoop() {
-    // runs every framen(example 60fps)
-    // step() calling step() when a new frame starts during requestAnimationFrame()
     const step = () => {
-      //clear screen
+      //Clear off the canvas
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      //Establish camera Person
+      //Establish the camera person
       const cameraPerson = this.map.gameObjects.hero;
 
-      //update all Objects
-      Object.values(this.map.gameObjects).forEach((object) => {
+      //Update all objects
+      Object.values(this.map.gameObjects).forEach(object => {
         object.update({
           arrow: this.directionInput.direction,
           map: this.map,
-        });
-      });
-
-      //Draw lower level
-      this.map.DrawLowerImage(this.ctx, cameraPerson);
-
-      //Draw gameObjects
-      Object.values(this.map.gameObjects)
-        .sort((a, b) => {
-          return a.y - b.y;
         })
-        .forEach((object) => {
-          object.sprite.draw(this.ctx, cameraPerson);
-        });
+      })
 
-      //Draw upper level
-      this.map.DrawUpperImage(this.ctx, cameraPerson);
+      //Draw Lower layer
+      this.map.drawLowerImage(this.ctx, cameraPerson);
 
+      //Draw Game Objects
+      Object.values(this.map.gameObjects).sort((a,b) => {
+        return a.y - b.y;
+      }).forEach(object => {
+        object.sprite.draw(this.ctx, cameraPerson);
+      })
+
+      //Draw Upper layer
+      this.map.drawUpperImage(this.ctx, cameraPerson);
+      
       requestAnimationFrame(() => {
-        step();
-      });
-    };
+        step();   
+      })
+    }
     step();
-  }
+ }
 
-  bindActionInput() {
-    new KeyPressListener("Enter", () => {
-      //Is there a person/npc to interact with?
-      this.map.checkForActionCutscene();
-    });
-  }
+ bindActionInput() {
+   new KeyPressListener("Enter", () => {
+     //Is there a person here to talk to?
+     this.map.checkForActionCutscene()
+   })
+ }
 
-  bindHeroPositionCheck() {
-    document.addEventListener("PersonWalkingComplete", (e) => {
-      if (e.detail.whoId === "hero") {
-        //hero position has changed
-        this.map.checkForFootstepCutscene();
-      }
-    });
-  }
+ bindHeroPositionCheck() {
+   document.addEventListener("PersonWalkingComplete", e => {
+     if (e.detail.whoId === "hero") {
+       //Hero's position has changed
+       this.map.checkForFootstepCutscene()
+     }
+   })
+ }
 
-  startMap(mapConfig) {
-    this.map = new OverworldMap(mapConfig);
-    this.map.overworld = this;
-    this.map.mountObjects();
-  }
+ startMap(mapConfig) {
+  this.map = new OverworldMap(mapConfig);
+  this.map.overworld = this;
+  this.map.mountObjects();
+ }
 
-  init() {
-    // init method initializes action
-    this.startMap(window.OverworldMaps.DemoRoom);
+ init() {
+  this.startMap(window.OverworldMaps.DemoRoom);
 
-    this.bindActionInput();
-    this.bindHeroPositionCheck();
 
-    this.directionInput = new DirectionInput();
-    this.directionInput.init();
-    this.startGameLoop();
-    //crete custome cutscenes!!
-    this.map.startCutscene([
-      /*
+  this.bindActionInput();
+  this.bindHeroPositionCheck();
 
-      // Hero is about to walk out
-      { who: "hero", type: "walk", direction: "down" },
-      { who: "hero", type: "walk", direction: "left" },
-      { who: "hero", type: "walk", direction: "left" },
-      { who: "hero", type: "walk", direction: "down" },
-      { who: "hero", type: "walk", direction: "down" },
-      { who: "hero", type: "walk", direction: "down" },
-      // npc1 sees and comes to stop me
-      { who: "npc1", type: "walk", direction: "down" },
-      { who: "npc1", type: "walk", direction: "down" },
-      { who: "npc1", type: "walk", direction: "down" },
-      { who: "npc1", type: "walk", direction: "down" },
-      { who: "npc1", type: "walk", direction: "down" },
-      { who: "npc1", type: "walk", direction: "right" },
-      { who: "npc1", type: "walk", direction: "right" },
-      { who: "npc1", type: "stand", direction: "up", time: 500 },
-    {type:"textMessage", text:"Be Careful Out There Niqqa!"},
+  this.directionInput = new DirectionInput();
+  this.directionInput.init();
 
-      //npc1 then returns to normal ai route
-      { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "walk", direction: "left" },
-      { who: "npc1", type: "walk", direction: "up" },
-      { who: "npc1", type: "walk", direction: "up" },
-      { who: "npc1", type: "walk", direction: "up" },
-      { who: "npc1", type: "stand", direction: "down", time: 1000 },
-      { who: "npc1", type: "walk", direction: "up" },
-      { who: "npc1", type: "walk", direction: "up" },
-    */
-    ]);
-  }
+  this.startGameLoop();
+
+
+  // this.map.startCutscene([
+  //   { who: "hero", type: "walk",  direction: "down" },
+  //   { who: "hero", type: "walk",  direction: "down" },
+  //   { who: "npcA", type: "walk",  direction: "up" },
+  //   { who: "npcA", type: "walk",  direction: "left" },
+  //   { who: "hero", type: "stand",  direction: "right", time: 200 },
+  //   { type: "textMessage", text: "WHY HELLO THERE!"}
+  //   // { who: "npcA", type: "walk",  direction: "left" },
+  //   // { who: "npcA", type: "walk",  direction: "left" },
+  //   // { who: "npcA", type: "stand",  direction: "up", time: 800 },
+  // ])
+
+ }
 }
