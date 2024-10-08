@@ -67,7 +67,7 @@ class Overworld {
   }
 
   init() {
-    this.startMap(window.OverworldMaps.Kitchen);
+    this.startMap(window.OverworldMaps.DemoRoom);
 
     this.bindActionInput();
     this.bindHeroPositionCheck();
@@ -77,6 +77,8 @@ class Overworld {
 
     this.startGameLoop();
 
-    this.map.startCutscene([{ type: "textMessage", text: "WAHGWAN!!" }]);
+   // this.map.startCutscene([
+    //  { type:"", }
+   // ]);
   }
 }
