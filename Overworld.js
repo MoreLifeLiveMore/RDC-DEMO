@@ -77,8 +77,8 @@ class Overworld {
 
     this.startGameLoop();
 
-   // this.map.startCutscene([
-    //  { type:"", }
-   // ]);
+    this.map.startCutscene([
+      { type:"battle", }
+    ]);
   }
 }
